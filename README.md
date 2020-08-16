@@ -236,7 +236,7 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 
 ## Future Tasks
 
-- This module is tested on Fortimanager v6.2.2 on "root" adom. It still does support multiple Adoms. So I will try to get this working for Multiple adoms too.
+- This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.
 
 ## Contributing
 
