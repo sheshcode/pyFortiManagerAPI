@@ -7,7 +7,7 @@ A Python wrapper for the FortiManager REST API.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install pyFortiManagerAPI.
 
 ```bash
-pip install pyFortiManager
+pip install pyFortiManagerAPI
 ```
 
 ## Getting Started
@@ -15,7 +15,7 @@ pip install pyFortiManager
 1. Creating Instance of the Module
 
 ```python
-import pyFortiManager
+import pyFortiManagerAPI
 fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 ```
 
