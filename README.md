@@ -30,7 +30,7 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 >>> fortimngr.get_firewall_address_objects()
 ```
 
-### 2) Get specific address object from FortiManager using "name" parameter.
+### 2) Get specific address object from FortiManager using "name" Filter.
 
 ```python
 >>> fortimngr.get_firewall_address_objects(name="YourObjectName")
@@ -40,7 +40,7 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 
 * name: Specify object name that you want to see.
 
-### 3) Create an address object using provided the defined parameters.
+### 3) Create an address object.
 
 ```python
 >>> fortimngr.add_firewall_address_object(name="TestObject",
@@ -85,13 +85,13 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 ### 6) Get all address groups.
 
 ```python
-get_address_grps = fortimngr.get_address_group()
+>>> fortimngr.get_address_group()
 ```
 
 ### 7) Get specific address group.
 
 ```python
-get_address_grps = fortimngr.get_address_group(name="TestGroup")
+>>> fortimngr.get_address_group(name="TestGroup")
 ```
 
 - ## Parameters
@@ -130,14 +130,12 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 ### 10) Delete the address group.
 
 ```python
->>> fortimngr.update_firewall_address_object(name="TestObject",
-                                             data={"subnet": ["2.2.2.2", "255.255.255.255"]}
-                                             )
+>>> fortimngr.delete_address_group(name="Test_group")
 ```
 
 - ## Parameters
 
-* name: Specify the name of the address you wish to delete
+* name: Specify the name of the address group you wish to delete
 
 ---
 
@@ -146,9 +144,17 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 ### 11) Get all the policies in your Policy Package.
 
 ```python
->>> fortimngr.update_firewall_address_object(name="TestObject",
-                                             data={"subnet": ["2.2.2.2", "255.255.255.255"]}
-                                             )
+>>> fortimngr.get_firewall_policies(policy_package_name="YourPolicyPackageName")
+```
+
+- ## Parameters
+
+* policy_package_name: Enter the policy package name.
+
+### 12) Get specific policiy in your Policy Package using PolicyID filter.
+
+```python
+>>> fortimngr.get_firewall_policies(policy_package_name="YourPolicyPackageName", policyid=3)
 ```
 
 - ## Parameters
@@ -156,7 +162,7 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 * policy_package_name: Enter the policy package name.
 * policyid: Can filter and get the policy you want using policyID
 
-### 12) Create your own policy in your Policy Package.
+### 13) Create your own policy in your Policy Package.
 
 ```python
 >>> fortimngr.add_firewall_policy(policy_package_name="YourPolicyPackageName",
@@ -187,7 +193,7 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
                    logtraffic=1  Means Log Security Events
                    logtraffic=2  Means Log All Sessions
 
-### 13) Update the policy in your Policy Package.
+### 14) Update the policy in your Policy Package.
 
 ```python
 >>> fortimngr.update_firewall_policy(policy_package_name="YourPolicyPackageName",
@@ -205,7 +211,7 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 * policyid: Enter the Policy ID you want to edit
 * data: Enter the updated data in a dictionary format eg. {"srcaddr":"LAN_10.1.1.0_24"}
 
-### 14) Delete the policy in your Policy Package.
+### 15) Delete the policy in your Policy Package.
 
 ```python
 >>> fortimngr.delete_firewall_policy(policy_package_name="YourPolicyPackageName",
@@ -221,7 +227,7 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 
 # User Operations : Installing the Policy Package.
 
-### 15) Installing the Policy Package.
+### 16) Installing the Policy Package.
 
 ```python
 >>> fortimngr.install_policy_package(package_name="Your Policy Package name")
@@ -237,10 +243,11 @@ get_address_grps = fortimngr.get_address_group(name="TestGroup")
 ## Future Tasks
 
 - This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.
+- To update any object or firewall policies we need to pass data in Dictonary and this seems to be slightly complicated. I will try to simplify this too. 
 
 ## Contributing
 
-- Being new to Python and this being my first publish, to get this module fully working for all of us the Pull requests are welcome.
+- Being new to Python and this being my first publish, to get this module fully working for all of us, the Pull requests are welcome.
 
 ## License
 
