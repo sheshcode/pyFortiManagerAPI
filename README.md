@@ -66,7 +66,7 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 - ## Parameters
 
 * name: Enter the name of the object that needs to be updated
-* data: Here the parameter data should be in a Dictonary format. eg. data={"associated_interface": "port1"}
+* data: You can get the **kwargs parameters with "show_params_for_object_update()" method
 
 ### 5) Delete address object.
 
@@ -209,7 +209,7 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 
 * policy_package_name: Enter the policy package name in which you policy belongs.
 * policyid: Enter the Policy ID you want to edit
-* data: Enter the updated data in a dictionary format eg. {"srcaddr":"LAN_10.1.1.0_24"}
+* data: You can get the **kwargs parameters with "show_params_for_policy_update()" method
 
 ### 15) Delete the policy in your Policy Package.
 
@@ -243,7 +243,7 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 ## Future Tasks
 
 - This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.
-- To update any object or firewall policies we need to pass data in Dictonary and this seems to be slightly complicated. I will try to simplify this too. 
+- To update any object or firewall policies we need to pass data in Dictonary and this seems to be slightly complicated. I will try to simplify this too. (This task is now achieved in version v0.0.4a) 
 
 ## Contributing
 

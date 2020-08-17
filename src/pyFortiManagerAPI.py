@@ -132,7 +132,7 @@ class FortiManager:
         Get the name of the address object and update it with your data
 
         :param name: Enter the name of the object that needs to be updated
-        :param data: Enter the data in a dictionary
+        :param data: You can get the **kwargs parameters with "show_params_for_object_update()" method
         :return: Response of status code with data in JSON Format
         """
         data = self.make_data(_for="object", **data)
@@ -364,7 +364,7 @@ class FortiManager:
 
         :param policy_package_name: Enter the policy package name in which you policy belongs
         :param policyid: Enter the Policy ID you want to edit
-        :param data: Enter the updated data in a dictionary format eg. {"srcaddr":"LAN_10.1.1.0_24"}
+        :param data: You can get the **kwargs parameters with "show_params_for_policy_update()" method
         :return: Response of status code with data in JSON Format
         """
         data = self.make_data(**data)
