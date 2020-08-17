@@ -243,7 +243,7 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 ## Future Tasks
 
 - This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.
-- To update any object or firewall policies we need to pass data in Dictonary and this seems to be slightly complicated. I will try to simplify this too. (This task is now achieved in version v0.0.4a) 
+- To update any object or firewall policies we need to pass data in Dictonary and this seems to be slightly complicated. I will try to simplify this too. (This task is now achieved in version v0.0.41) 
 
 ## Contributing
 
