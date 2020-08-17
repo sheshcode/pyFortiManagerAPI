@@ -139,3 +139,12 @@ dmypy.json
 .pytype/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+Tests/
+.idea
+.idea/.gitignore
+.idea/dictionaries/Mane_PC.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/pyFortiManagerAPI.iml
+.idea/vcs.xml

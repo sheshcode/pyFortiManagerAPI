@@ -2,6 +2,8 @@ __author__ = "Akshay Mane"
 
 import requests
 import urllib3
+import inspect
+import json
 
 # Disable for insecure connections warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -93,7 +95,7 @@ class FortiManager:
         return get_address_objects.json()["result"]
 
     def add_firewall_address_object(self, name, associated_interface="any", subnet=list, object_type=0,
-                                    allow_routing=0):
+                                    allow_routing=0, comment=False):
         """
         Create an address object using provided info
         :param name: Enter object name that is to be created
@@ -101,6 +103,7 @@ class FortiManager:
         :param subnet: Enter the subnet in a list format eg.["1.1.1.1", "255.255.255.255"]
         :param object_type:
         :param allow_routing: Set routing if needed
+        :param comment: Can add your comments
         :return: Response of status code with data in JSON Format
         """
         session = self.login()
@@ -124,7 +127,7 @@ class FortiManager:
         add_address_objects = session.post(url=self.base_url, data=payload, verify=self.verify)
         return add_address_objects.json()["result"]
 
-    def update_firewall_address_object(self, name, data=dict):
+    def update_firewall_address_object(self, name, **data):
         """
         Get the name of the address object and update it with your data
 
@@ -132,8 +135,10 @@ class FortiManager:
         :param data: Enter the data in a dictionary
         :return: Response of status code with data in JSON Format
         """
+        data = self.make_data(_for="object", **data)
         session = self.login()
         data.update({"name": name})
+        print(data)
         payload = \
             {
                 "method": "update",
@@ -143,8 +148,9 @@ class FortiManager:
                         "url": f"pm/config/adom/root/obj/firewall/address/"
                     }
                 ],
-                "session": "None"
+                "session": self.sessionid
             }
+        print(json.dumps(payload, indent=4))
         payload = repr(payload)
         update_firewall_object = session.post(url=self.base_url, data=payload, verify=self.verify)
         return update_firewall_object.json()["result"]
@@ -352,7 +358,7 @@ class FortiManager:
         add_policy = session.post(url=self.base_url, data=payload, verify=self.verify)
         return add_policy.json()["result"]
 
-    def update_firewall_policy(self, policy_package_name, policyid, data):
+    def update_firewall_policy(self, policy_package_name, policyid, **data):
         """
         Update your policy with your specific needs
 
@@ -361,6 +367,7 @@ class FortiManager:
         :param data: Enter the updated data in a dictionary format eg. {"srcaddr":"LAN_10.1.1.0_24"}
         :return: Response of status code with data in JSON Format
         """
+        data = self.make_data(**data)
         session = self.login()
         payload = \
             {
@@ -425,3 +432,71 @@ class FortiManager:
         payload = repr(payload)
         install_package = session.post(url=self.base_url, data=payload, verify=self.verify)
         return install_package.json()["result"]
+
+    @staticmethod
+    def make_data(_for="policy", **kwargs):
+        object_maps = \
+            {
+                "allow_routing": "allow-routing",
+                "associated_interface": "associated-interface",
+                "comment": "comment",
+                "object_name": "name",
+                "subnet": "subnet",
+                "object_type": "type"
+            }
+        policy_maps = \
+            {
+                "name": "name",
+                "source_interface": "srcintf",
+                "source_address": "srcaddr",
+                "destination_interface": "dstintf",
+                "destination_address": "dstaddr",
+                "service": "service",
+                "schedule": "schedule",
+                "action": "action",
+                "logtraffic": "logtraffic"
+            }
+
+        data = {}
+        for key, value in kwargs.items():
+            if _for == "policy":
+                key = key.replace(key, policy_maps[key])
+            elif _for == "object":
+                key = key.replace(key, object_maps[key])
+            data.update({key: value})
+        return data
+
+    @staticmethod
+    def show_params_for_object_update():
+        docs = \
+            """
+        Parameters to create/update address object:
+
+        PARAMETERS                   FIREWALL OBJECT SETTINGS
+        allow_routing(str)          : Static Route Configuration
+        associated_interface(str)   : Interface
+        comment(str)                : Comments
+        object_name(str)            : Address Name
+        subnet[list]                : IP/Netmask
+        object_type(int)            : Type
+        """
+        return docs
+
+    @staticmethod
+    def show_params_for_policy_update():
+        docs = \
+            """
+        Parameters to create/update Policy:
+
+        PARAMETERS                       FIREWALL OBJECT SETTINGS
+        name(str)                       : Name
+        source_interface(str)           : Incoming Interface
+        source_address(str)             : Source Address
+        destination_interface(str)      : Destination Interface
+        destination_address(str)        : Destination Address
+        service(str)                    : Service
+        schedule(str)                   : Schedule
+        action(str)                     : Action
+        logtraffic(str)                 : Log Traffic
+        """
+        return docs

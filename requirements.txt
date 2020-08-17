@@ -8,12 +8,14 @@ bleach==3.1.5
 bs4==0.0.1
 certifi==2020.4.5.1
 chardet==3.0.4
+check-manifest==0.42
 colorama==0.4.3
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
 Django==3.0.6
 django-crispy-forms==1.9.1
+docutils==0.16
 entrypoints==0.3
 html5lib==1.0.1
 idna==2.9
@@ -29,6 +31,7 @@ jupyter-client==6.1.6
 jupyter-core==4.6.3
 jupyterlab==2.2.2
 jupyterlab-server==1.2.0
+keyring==21.3.0
 kiwisolver==1.2.0
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
@@ -44,15 +47,16 @@ opencv-python==4.3.0.36
 packaging==20.1
 pandocfilters==1.4.2
 parso==0.7.1
+pep517==0.8.2
 pickleshare==0.7.5
 Pillow==7.2.0
+pkginfo==1.5.0.1
 pluggy==0.13.1
 prometheus-client==0.8.0
 prompt-toolkit==3.0.5
 psycopg2==2.8.5
 py==1.8.1
-# Editable install with no version control (pyFortiManagerAPI==0.0.1)
--e e:\akshay\networks\pycharm_projects\fortiapitest\pyfortimanagerapi\src
+-e git+https://github.com/akshaymane920/pyFortiManagerAPI.git@0896af96489cdc86e7db5256bd09941f61217c91#egg=pyFortiManagerAPI
 Pygments==2.6.1
 pylint==2.4.4
 pyparsing==2.4.6
@@ -61,9 +65,13 @@ pytest==5.3.5
 python-dateutil==2.8.1
 pytz==2020.1
 pywin32==228
+pywin32-ctypes==0.2.0
 pywinpty==0.5.7
 pyzmq==19.0.1
+readme-renderer==26.0
 requests==2.23.0
+requests-toolbelt==0.9.1
+rfc3986==1.4.0
 selenium==3.141.0
 Send2Trash==1.5.0
 six==1.14.0
@@ -71,8 +79,11 @@ soupsieve==2.0.1
 sqlparse==0.3.1
 terminado==0.8.3
 testpath==0.4.4
+toml==0.10.1
 tornado==6.0.4
+tqdm==4.48.2
 traitlets==4.3.3
+twine==3.2.0
 urllib3==1.25.9
 wcwidth==0.1.8
 webencodings==0.5.1
