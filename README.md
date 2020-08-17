@@ -59,7 +59,9 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 
 ```python
 >>> fortimngr.update_firewall_address_object(name="TestObject",
-                                             data={"subnet": ["2.2.2.2", "255.255.255.255"]}
+                                             associate_interface="port1",
+                                             comment="Updated using API",
+                                             subnet=["2.2.2.2","255.255.255.255"]
                                              )
 ```
 
@@ -198,11 +200,9 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 ```python
 >>> fortimngr.update_firewall_policy(policy_package_name="YourPolicyPackageName",
                                      policyid=10,
-                                     data={
-                                           "srcintf": "port2",
-                                           "action": 0,
-                                           "logtraffic": 0
-                                           })
+                                     source_interface="port2",
+                                     action=1,
+                                     )
 ```
 
 - ## Parameters
