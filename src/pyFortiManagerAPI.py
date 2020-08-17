@@ -485,7 +485,7 @@ class FortiManager:
             """
         Parameters to create/update Policy:
 
-        PARAMETERS                       FIREWALL OBJECT SETTINGS
+        PARAMETERS                       FIREWALL POLICY SETTINGS
         name(str)                       : Name
         source_interface(str)           : Incoming Interface
         source_address(str)             : Source Address
