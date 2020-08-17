@@ -9,7 +9,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class FortiManager:
-    def __init__(self, host, username, password, vdom="root", verify=False):
+    def __init__(self, host, username="admin", password="admin", vdom="root", verify=False):
         protocol = "https"
         self.host = host
         self.username = username
@@ -94,7 +94,7 @@ class FortiManager:
         return get_address_objects.json()["result"]
 
     def add_firewall_address_object(self, name, associated_interface="any", subnet=list, object_type=0,
-                                    allow_routing=0, comment=False):
+                                    allow_routing=0):
         """
         Create an address object using provided info
         :param name: Enter object name that is to be created
@@ -451,7 +451,8 @@ class FortiManager:
                 "service": "service",
                 "schedule": "schedule",
                 "action": "action",
-                "logtraffic": "logtraffic"
+                "logtraffic": "logtraffic",
+                "comment": "comments"
             }
 
         data = {}
@@ -470,7 +471,7 @@ class FortiManager:
         Parameters to create/update address object:
 
         PARAMETERS                   FIREWALL OBJECT SETTINGS
-        allow_routing(str)          : Static Route Configuration
+        allow_routing(int)          : Static Route Configuration
         associated_interface(str)   : Interface
         comment(str)                : Comments
         object_name(str)            : Address Name
@@ -493,7 +494,8 @@ class FortiManager:
         destination_address(str)        : Destination Address
         service(str)                    : Service
         schedule(str)                   : Schedule
-        action(str)                     : Action
-        logtraffic(str)                 : Log Traffic
+        action(int)                     : Action
+        logtraffic(int)                 : Log Traffic
+        comment(str)                    : Comments
         """
         return docs

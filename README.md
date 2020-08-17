@@ -240,6 +240,37 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 
 ---
 
+# Show Params for updation of Policies and Objects.
+### 17) Parameters for updating Address Object.
+```python
+>>> fortimngr.show_params_for_object_update()
+```
+        Parameters to create/update address object:
+
+        PARAMETERS                   FIREWALL OBJECT SETTINGS
+        allow_routing(int)          : Static Route Configuration
+        associated_interface(str)   : Interface
+        comment(str)                : Comments
+        object_name(str)            : Address Name
+        subnet[list]                : IP/Netmask
+        object_type(int)            : Type
+### 18) Parameters for updating Policy. 
+```python
+>>> fortimngr.show_params_for_policy_update()
+```
+        Parameters to create/update Policy:
+
+        PARAMETERS                       FIREWALL POLICY SETTINGS
+        name(str)                       : Name
+        source_interface(str)           : Incoming Interface
+        source_address(str)             : Source Address
+        destination_interface(str)      : Destination Interface
+        destination_address(str)        : Destination Address
+        service(str)                    : Service
+        schedule(str)                   : Schedule
+        action(int)                     : Action
+        logtraffic(int)                 : Log Traffic
+        comment(str)                    : Comments
 ## Future Tasks
 
 - This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.
