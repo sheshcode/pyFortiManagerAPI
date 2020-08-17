@@ -136,14 +136,13 @@ class FortiManager:
         """
         data = self.make_data(_for="object", **data)
         session = self.login()
-        data.update({"name": name})
         payload = \
             {
                 "method": "update",
                 "params": [
                     {
                         "data": data,
-                        "url": f"pm/config/adom/root/obj/firewall/address/"
+                        "url": f"pm/config/adom/root/obj/firewall/address/{name}"
                     }
                 ],
                 "session": self.sessionid
