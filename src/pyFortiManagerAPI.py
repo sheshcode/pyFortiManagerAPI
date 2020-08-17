@@ -2,8 +2,7 @@ __author__ = "Akshay Mane"
 
 import requests
 import urllib3
-import inspect
-import json
+
 
 # Disable for insecure connections warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -138,7 +137,6 @@ class FortiManager:
         data = self.make_data(_for="object", **data)
         session = self.login()
         data.update({"name": name})
-        print(data)
         payload = \
             {
                 "method": "update",
@@ -150,7 +148,6 @@ class FortiManager:
                 ],
                 "session": self.sessionid
             }
-        print(json.dumps(payload, indent=4))
         payload = repr(payload)
         update_firewall_object = session.post(url=self.base_url, data=payload, verify=self.verify)
         return update_firewall_object.json()["result"]
