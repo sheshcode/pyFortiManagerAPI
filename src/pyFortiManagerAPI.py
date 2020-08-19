@@ -69,6 +69,86 @@ class FortiManager:
         logout = session.post(url=self.base_url, data=payload, verify=self.verify)
         return logout.json()["result"]
 
+    # Adoms Methods
+    def get_admos(self, name=False):
+        """
+        Get all adoms from the FortiManager
+        :param name: Can get specific adom using name as a filter
+        :return: Response of status code with data in JSON Format
+        """
+        url = "dvmdb/adom"
+        if name:
+            url = f"dvmdb/adom/{name}"
+        session = self.login()
+        payload = \
+            {
+                "method": "get",
+                "params":
+                    [
+                        {
+                            "url": url,
+                            "option": "object member"
+                        }
+                    ],
+                "session": self.sessionid
+            }
+        payload = repr(payload)
+        get_adoms = session.post(url=self.base_url, data=payload, verify=False)
+        return get_adoms.json()["result"]
+
+    # Policy Package Methods
+    def get_policy_packages(self, name=False):
+        """
+        Get all the policy packages configured on FortiManager
+        :param name: Can get specific package using name as a filter
+        :return: Response of status code with data in JSON Format
+        """
+        url = "pm/pkg/adom/root/"
+        if name:
+            url = f"pm/pkg/adom/root/{name}"
+        session = self.login()
+        payload = \
+            {
+                "method": "get",
+                "params":
+                    [
+                        {
+                            "url": url
+                        }
+                    ],
+                "session": self.sessionid
+            }
+        payload = repr(payload)
+        get_packages = session.post(url=self.base_url, data=payload, verify=False)
+        return get_packages.json()["result"]
+
+    def add_policy_package(self, name):
+        """
+        Can add your own policy package in FortiManager
+        :param name: Specific the Package Name
+        :return: Response of status code with data in JSON Format
+        """
+        url = "pm/pkg/adom/root/"
+        session = self.login()
+        payload = \
+            {
+                "method": "set",
+                "params":
+                    [
+                        {
+                            "data": [{
+                                "name": name,
+                                "type": "pkg"
+                            }, ],
+                            "url": url
+                        }
+                    ],
+                "session": self.sessionid
+            }
+        payload = repr(payload)
+        add_package = session.post(url=self.base_url, data=payload, verify=False)
+        return add_package.json()["result"]
+
     # Firewall Object Methods
     def get_firewall_address_objects(self, name=False):
         """
@@ -402,6 +482,35 @@ class FortiManager:
         payload = repr(payload)
         delete_policy = session.post(url=self.base_url, data=payload, verify=self.verify)
         return delete_policy.json()["result"]
+
+    def move_firewall_policy(self, policy_package_name, move_policyid=int, option="before", policyid=int):
+        """
+        Move the policy as per your needs
+
+        :param policy_package_name: Enter the policy package name in which you policy belongs
+        :param move_policyid: Enter the policy ID of the policy you want to move
+        :param option: Specify if you want to move above("before") the target policy or below("after") {default: before}
+        :param policyid: Specify the target policy
+        :return: Response of status code with data in JSON Format
+        """
+        session = self.login()
+        payload = \
+            {
+                "method": "move",
+                "params": [
+                    {
+                        "url": f"pm/config/adom/root/pkg/{policy_package_name}/firewall/policy/{move_policyid}",
+                        "option": option,
+                        "target": str(policyid)
+                    }
+                ],
+                "session": self.sessionid
+            }
+        import json
+        print(json.dumps(payload, indent=4))
+        payload = repr(payload)
+        move_policy = session.post(url=self.base_url, data=payload, verify=self.verify)
+        return move_policy.json()["result"]
 
     def install_policy_package(self, package_name):
         """
