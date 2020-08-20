@@ -9,17 +9,17 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class FortiManager:
-    def __init__(self, host, username="admin", password="admin", vdom="root", verify=False):
+    def __init__(self, host, username="admin", password="admin", adom="root", verify=False):
         protocol = "https"
         self.host = host
         self.username = username
         self.password = password
-        self.vdom = vdom
+        self.adom = adom
         self.sessionid = "null"
         self.verify = verify
         if not self.verify:
             protocol = "http"
-        self.base_url = f"{protocol}://{host}/jsonrpc"
+        self.base_url = f"{protocol}://{self.host}/jsonrpc"
 
     # Login Method
     def login(self):
@@ -70,7 +70,7 @@ class FortiManager:
         return logout.json()["result"]
 
     # Adoms Methods
-    def get_admos(self, name=False):
+    def get_adoms(self, name=False):
         """
         Get all adoms from the FortiManager
         :param name: Can get specific adom using name as a filter
@@ -103,9 +103,9 @@ class FortiManager:
         :param name: Can get specific package using name as a filter
         :return: Response of status code with data in JSON Format
         """
-        url = "pm/pkg/adom/root/"
+        url = f"pm/pkg/adom/{self.adom}/"
         if name:
-            url = f"pm/pkg/adom/root/{name}"
+            url = f"pm/pkg/adom/{self.adom}/{name}"
         session = self.login()
         payload = \
             {
@@ -128,7 +128,7 @@ class FortiManager:
         :param name: Specific the Package Name
         :return: Response of status code with data in JSON Format
         """
-        url = "pm/pkg/adom/root/"
+        url = f"pm/pkg/adom/{self.adom}/"
         session = self.login()
         payload = \
             {
@@ -155,9 +155,9 @@ class FortiManager:
         Get all the address objects data stored in FortiManager
         :return: Response of status code with data in JSON Format
         """
-        url = f"pm/config/adom/root/obj/firewall/address"
+        url = f"pm/config/adom/{self.adom}/obj/firewall/address"
         if name:
-            url = f"pm/config/adom/root/obj/firewall/address/{name}"
+            url = f"pm/config/adom/{self.adom}/obj/firewall/address/{name}"
         session = self.login()
         payload = \
             {
@@ -182,7 +182,6 @@ class FortiManager:
         :param subnet: Enter the subnet in a list format eg.["1.1.1.1", "255.255.255.255"]
         :param object_type:
         :param allow_routing: Set routing if needed
-        :param comment: Can add your comments
         :return: Response of status code with data in JSON Format
         """
         session = self.login()
@@ -197,7 +196,7 @@ class FortiManager:
                         "subnet": subnet,
                         "type": object_type
                     },
-                    "url": f"pm/config/adom/root/obj/firewall/address"
+                    "url": f"pm/config/adom/{self.adom}/obj/firewall/address"
                 }
             ],
             "session": self.sessionid
@@ -222,7 +221,7 @@ class FortiManager:
                 "params": [
                     {
                         "data": data,
-                        "url": f"pm/config/adom/root/obj/firewall/address/{name}"
+                        "url": f"pm/config/adom/{self.adom}/obj/firewall/address/{name}"
                     }
                 ],
                 "session": self.sessionid
@@ -244,7 +243,7 @@ class FortiManager:
                 "method": "delete",
                 "params": [
                     {
-                        "url": f"pm/config/adom/root/obj/firewall/address/{object_name}"
+                        "url": f"pm/config/adom/{self.adom}/obj/firewall/address/{object_name}"
                     }
                 ],
                 "session": self.sessionid
@@ -254,16 +253,16 @@ class FortiManager:
         return delete_address_object.json()["result"]
 
     # Firewall Address Groups Methods
-    def get_address_group(self, name=False):
+    def get_address_groups(self, name=False):
         """
         Get the address groups created in your FortiManager
         :param name: You can filter out the specific address group which you want to see
         :return: Response of status code with data in JSON Format
         """
         session = self.login()
-        url = "pm/config/adom/root/obj/firewall/addrgrp"
+        url = f"pm/config/adom/{self.adom}/obj/firewall/addrgrp"
         if name:
-            url = f"pm/config/adom/root/obj/firewall/addrgrp/{name}"
+            url = f"pm/config/adom/{self.adom}/obj/firewall/addrgrp/{name}"
         payload = \
             {
                 "method": "get",
@@ -295,7 +294,7 @@ class FortiManager:
                             "name": name,
                             "member": members,
                         },
-                        "url": "pm/config/adom/root/obj/firewall/addrgrp"
+                        "url": f"pm/config/adom/{self.adom}/obj/firewall/addrgrp"
                     }
                 ],
                 "session": self.sessionid
@@ -315,7 +314,7 @@ class FortiManager:
         :return: Response of status code with data in JSON Format
         """
         session = self.login()
-        get_addr_group = self.get_address_group(name=name)
+        get_addr_group = self.get_address_groups(name=name)
         members = get_addr_group[0]['data']['member']
         if do == "add":
             members.append(object_name)
@@ -330,7 +329,7 @@ class FortiManager:
                         "data": {
                             "member": members,
                         },
-                        "url": f"pm/config/adom/root/obj/firewall/addrgrp/{name}"
+                        "url": f"pm/config/adom/{self.adom}/obj/firewall/addrgrp/{name}"
                     }
                 ],
                 "session": self.sessionid
@@ -353,7 +352,7 @@ class FortiManager:
                     {
                         "data": {
                         },
-                        "url": f"pm/config/adom/root/obj/firewall/addrgrp/{name}"
+                        "url": f"pm/config/adom/{self.adom}/obj/firewall/addrgrp/{name}"
                     }
                 ],
                 "session": self.sessionid
@@ -371,7 +370,7 @@ class FortiManager:
         :param policyid: Can filter and get the policy you want using policyID
         :return: Response of status code with data in JSON Format
         """
-        url = f"pm/config/adom/root/pkg/{policy_package_name}/firewall/policy/"
+        url = f"pm/config/adom/{self.adom}/pkg/{policy_package_name}/firewall/policy/"
         if policyid:
             url = url + str(policyid)
         session = self.login()
@@ -388,9 +387,9 @@ class FortiManager:
         get_firewall_policies = session.post(url=self.base_url, data=payload, verify=self.verify)
         return get_firewall_policies.json()["result"]
 
-    def add_firewall_policy(self, policy_package_name="default", name=str, source_interface=str, source_address=str,
-                            destination_interface=str, destination_address=str, service=str, schedule="always",
-                            action=1, logtraffic=int, ):
+    def add_firewall_policy(self, policy_package_name="default", name=str, source_interface=str,
+                            source_address=str, destination_interface=str, destination_address=str,
+                            service=str, schedule="always", action=1, logtraffic=int, ):
         """
         Create your own policy in FortiManager using the instance parameters.
 
@@ -425,7 +424,7 @@ class FortiManager:
                         "srcintf": source_interface,
                         "action": action
                     },
-                    "url": f"pm/config/adom/root/pkg/{policy_package_name}/firewall/policy/"
+                    "url": f"pm/config/adom/{self.adom}/pkg/{policy_package_name}/firewall/policy/"
                 }
             ],
             "session": self.sessionid
@@ -451,7 +450,7 @@ class FortiManager:
                 "params": [
                     {
                         "data": data,
-                        "url": f"pm/config/adom/root/pkg/{policy_package_name}/firewall/policy/{policyid}"
+                        "url": f"pm/config/adom/{self.adom}/pkg/{policy_package_name}/firewall/policy/{policyid}"
                     }
                 ],
                 "session": self.sessionid
@@ -474,7 +473,7 @@ class FortiManager:
                 "method": "delete",
                 "params": [
                     {
-                        "url": f"pm/config/adom/root/pkg/{policy_package_name}/firewall/policy/{policyid}"
+                        "url": f"pm/config/adom/{self.adom}/pkg/{policy_package_name}/firewall/policy/{policyid}"
                     }
                 ],
                 "session": self.sessionid
@@ -499,15 +498,13 @@ class FortiManager:
                 "method": "move",
                 "params": [
                     {
-                        "url": f"pm/config/adom/root/pkg/{policy_package_name}/firewall/policy/{move_policyid}",
+                        "url": f"pm/config/adom/{self.adom}/pkg/{policy_package_name}/firewall/policy/{move_policyid}",
                         "option": option,
                         "target": str(policyid)
                     }
                 ],
                 "session": self.sessionid
             }
-        import json
-        print(json.dumps(payload, indent=4))
         payload = repr(payload)
         move_policy = session.post(url=self.base_url, data=payload, verify=self.verify)
         return move_policy.json()["result"]
@@ -526,7 +523,7 @@ class FortiManager:
                 "params": [
                     {
                         "data": {
-                            "adom": "root",
+                            "adom": f"{self.adom}",
                             "pkg": f"{package_name}"
                         },
                         "url": "securityconsole/install/package"

@@ -6,7 +6,7 @@ A Python wrapper for the FortiManager REST API.
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install pyFortiManagerAPI.
 
-```bash
+```shell script
 pip install pyFortiManagerAPI
 ```
 
@@ -16,21 +16,25 @@ pip install pyFortiManagerAPI
 
 ```python
 import pyFortiManagerAPI
-fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
+fortimngr = pyFortiManagerAPI.FortiManager(host="", 
+                                           username="",
+                                           password="",
+                                           adom="")
 ```
 
 - host: Management Ip address of your FortiManager
 - username/password: Specify your credentials to log into the device.
+- adom: Specify in which Adom you want to play.
 
 
 
 # User Operations : Adoms
 ### 1) Get all adoms from the FortiManager.
 ```python
->>> fortimngr.get_admos()
+>>> fortimngr.get_adoms()
 ```
 ```python
->>> fortimngr.get_admos(name="root")
+>>> fortimngr.get_adoms(name="root")
 ```
 - ## Parameters
 * name: Can get specific adom using name as a filter.
@@ -121,13 +125,13 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
 ### 9) Get all address groups.
 
 ```python
->>> fortimngr.get_address_group()
+>>> fortimngr.get_address_groups()
 ```
 
 ### 10) Get specific address group.
 
 ```python
->>> fortimngr.get_address_group(name="TestGroup")
+>>> fortimngr.get_address_groups(name="TestGroup")
 ```
 
 - ## Parameters
@@ -321,15 +325,16 @@ fortimngr = pyFortiManagerAPI.FortiManager(host="", username="",password="")
         action(int)                     : Action
         logtraffic(int)                 : Log Traffic
         comment(str)                    : Comments
-## Future Tasks
 
-- This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.
+
+## Future Tasks
+- This module is tested on Fortimanager v6.2.2 on "root" adom. It still doesn't support multiple Adoms. So I will try to get this working for Multiple adoms too.(This task is now achieved in version v0.1)
 - To update any object or firewall policies we need to pass data in Dictonary and this seems to be slightly complicated. I will try to simplify this too. (This task is now achieved in version v0.0.44) 
+- To get, add, update and delete adoms, devices and interfaces.
+
 
 ## Contributing
-
 - Being new to Python and this being my first publish, to get this module fully working for all of us, the Pull requests are welcome.
 
 ## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/akshaymane920/pyFortiManagerAPI/blob/master/LICENSE.txt)
