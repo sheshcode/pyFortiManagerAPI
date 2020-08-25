@@ -3,8 +3,7 @@ __author__ = "Akshay Mane"
 import requests
 import urllib3
 
-
-# Disable for insecure connections warnings
+# Disable insecure connections warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
